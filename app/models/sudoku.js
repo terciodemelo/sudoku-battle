@@ -36,7 +36,7 @@ function evalQuadrant(row, column) {
     (rowSum, rowIdx) => { 
       return rowSum + _.reduce(
         _.range(column, column + 3), 
-        (colSum, colIdx) => colSum + (this.board.cell(rowIdx, colIdx) === null),
+        (colSum, colIdx) => colSum + this.board.isEmpty(rowIdx, colIdx),
         0
       )
     },
