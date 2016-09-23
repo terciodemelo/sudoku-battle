@@ -1,25 +1,36 @@
 let _            = require('lodash');
 let Exceptions   = require('../errors/sudoku_errors');
 let SudokuHelper = require('../helpers/sudoku_helper');
+let ClassHelper  = require('../helpers/class_helper');
+let Board        = require('./board')
 
 module.exports = function Sudoku() {
-  this.board = _.range(10).map(v => _.range(10).map(n => null));
+  this.board = new Board();
   this.set = setCell;
-  this.evalLine = evalLine;
+  this.evalRow = evalRow;
+  this.evalColumn = evalColumn;
 
-  SudokuHelper.before(this, 'set', SudokuHelper.verifyParamsRange);
-  SudokuHelper.before(this, 'evalLine', SudokuHelper.verifyParamsRange);
+  let before = ClassHelper.before;
+
+  before(this, 'set', SudokuHelper.verifyParamsRange);
+  before(this, 'evalRow', SudokuHelper.verifyParamsRange);
+  before(this, 'evalColumn', SudokuHelper.verifyParamsRange);
 }
 
-function evalLine(line) {
-  return _.reduce(this.board[line], (sum, cell) => sum + (cell === null), 0);
+function evalRow(row) {
+  return _.reduce(this.board.row(row), (sum, cell) => sum + (cell === null), 0);
 }
 
-function setCell(line, column, value) {
-  if (this.board[line][column]) {
+function evalColumn(col) {
+  return _.reduce(this.board.column(col), (sum, cell) => sum + (cell === null), 0);
+}
+
+function setCell(row, column, value) {
+  if (this.board.cell(row, column)) {
     throw Exceptions.BOARD_CELL_NOT_EMPTY;
   } 
 
-  this.board[line][column] = value;
+  this.board.set(row, column, value);
 }
+
 
