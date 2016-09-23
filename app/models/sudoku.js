@@ -9,14 +9,14 @@ module.exports = function Sudoku() {
   this.set = setCell;
   this.evalRow = evalRow;
   this.evalColumn = evalColumn;
-  this.evalSubBoard = evalSubBoard;
+  this.evalQuadrant = evalQuadrant;
 
   let before = ClassHelper.before;
 
   before(this, 'set',          SudokuHelper.verifyParamsRange);
   before(this, 'evalRow',      SudokuHelper.verifyParamsRange);
   before(this, 'evalColumn',   SudokuHelper.verifyParamsRange);
-  before(this, 'evalSubBoard', SudokuHelper.verifyParamsRange);
+  before(this, 'evalQuadrant', SudokuHelper.verifyParamsRange);
 }
 
 function evalRow(row) {
@@ -27,7 +27,7 @@ function evalColumn(col) {
   return _.reduce(this.board.column(col), (sum, cell) => sum + (cell === null), 0);
 }
 
-function evalSubBoard(row, column) {
+function evalQuadrant(row, column) {
   row = Math.floor(row / 3) * 3;
   column = Math.floor(column / 3) * 3;
 
