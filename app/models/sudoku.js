@@ -79,6 +79,7 @@ function setCell(row, column, value) {
   } 
 
   this.board.set(row, column, value);
+  console.log(`Latest move: (${row + 1}, ${column + 1}) <- ${value}\n`)
 }
 
 

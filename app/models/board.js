@@ -19,7 +19,6 @@ module.exports = function Board(height = 9, width = 9) {
 }
 
 function show() {
-  console.log("\n\n\n");
   console.log("    1 2 3 4 5 6 7 8 9");
   console.log("    -----------------");
   let rowNumber = 1;
