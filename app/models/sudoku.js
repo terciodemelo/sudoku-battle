@@ -2,6 +2,8 @@ let _            = require('lodash');
 let Exceptions   = require('../errors/sudoku_errors');
 let SudokuHelper = require('../helpers/sudoku_helper');
 let ClassHelper  = require('../helpers/class_helper');
+let BoardHelper  = require('../helpers/board_helper');
+
 let Board        = require('./board')
 
 module.exports = function Sudoku(player1, player2) {
@@ -9,6 +11,7 @@ module.exports = function Sudoku(player1, player2) {
   this.player2 = player2;
 
   this.board = new Board();
+  this.board.initBoard(_.sample(BoardHelper.DEFAULT_CONFIGURATIONS));
 
   this.get          = getCell;
   this.set          = setCell;
