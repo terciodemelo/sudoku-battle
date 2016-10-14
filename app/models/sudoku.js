@@ -10,6 +10,7 @@ module.exports = function Sudoku(player1, player2) {
 
   this.board = new Board();
 
+  this.get          = getCell;
   this.set          = setCell;
   this.evalRow      = evalRow;
   this.evalColumn   = evalColumn;
@@ -19,6 +20,7 @@ module.exports = function Sudoku(player1, player2) {
 
   let before = ClassHelper.before;
 
+  before(this, 'get',          SudokuHelper.verifyParamsRange);
   before(this, 'set',          SudokuHelper.verifyParamsRange);
   before(this, 'evalRow',      SudokuHelper.verifyParamsRange);
   before(this, 'evalColumn',   SudokuHelper.verifyParamsRange);
@@ -27,10 +29,10 @@ module.exports = function Sudoku(player1, player2) {
 
 function turn() {
   this.board.show();
-  this.player1.play(this.board);
+  this.player1.play(this);
 
   this.board.show();
-  this.player2.play(this.board);
+  this.player2.play(this);
 }
 
 function start() {
@@ -40,11 +42,11 @@ function start() {
 }
 
 function evalRow(row) {
-  return _.reduce(this.board.row(row), (sum, cell) => sum + (cell === null), 0);
+  return _.reduce(this.board.row(row), (sum, cell) => sum + (cell === 0), 0);
 }
 
 function evalColumn(col) {
-  return _.reduce(this.board.column(col), (sum, cell) => sum + (cell === null), 0);
+  return _.reduce(this.board.column(col), (sum, cell) => sum + (cell === 0), 0);
 }
 
 function evalQuadrant(row, column) {
@@ -62,6 +64,10 @@ function evalQuadrant(row, column) {
     },
     0
   );
+}
+
+function getCell(row, column) {
+  return this.board.cell(row, column);
 }
 
 function setCell(row, column, value) {
