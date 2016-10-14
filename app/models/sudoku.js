@@ -25,9 +25,10 @@ module.exports = function Sudoku(player1, player2) {
 
 function turn() {
   this.board.show();
-  this.player1.play(this.board);
-  this.board.show();
-  this.player2.play(this.board);
+  this.player1.play(this.board, () => {
+    this.board.show();
+    this.player2.play(this.board);
+  });
 }
 
 function evalRow(row) {

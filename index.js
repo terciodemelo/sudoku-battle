@@ -1,7 +1,8 @@
-let Sudoku   = require('./app/models/sudoku');
-let AIPlayer = require('./app/models/ai_player');
+let Sudoku     = require('./app/models/sudoku');
+let AIPlayer   = require('./app/models/ai_player');
+let UserPlayer = require('./app/models/user_player');
 
-let aiPlayer1 = new AIPlayer();
-let aiPlayer2 = new AIPlayer();
-let sudoku = new Sudoku(aiPlayer1, aiPlayer2);
+let player1 = new UserPlayer();
+let player2 = new UserPlayer();
+let sudoku  = new Sudoku(player1, player2);
 

@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/terciodemelo/sudoku-battle#readme",
   "dependencies": {
-    "lodash": "^4.16.1"
+    "lodash": "^4.16.1",
+    "prompt-sync": "^4.1.4"
   }
 }
