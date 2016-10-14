@@ -9,11 +9,13 @@ module.exports = function Sudoku(player1, player2) {
   this.player2 = player2;
 
   this.board = new Board();
-  this.set = setCell;
-  this.evalRow = evalRow;
-  this.evalColumn = evalColumn;
+
+  this.set          = setCell;
+  this.evalRow      = evalRow;
+  this.evalColumn   = evalColumn;
   this.evalQuadrant = evalQuadrant;
-  this.turn = turn;
+  this.turn         = turn;
+  this.start        = start
 
   let before = ClassHelper.before;
 
@@ -25,10 +27,16 @@ module.exports = function Sudoku(player1, player2) {
 
 function turn() {
   this.board.show();
-  this.player1.play(this.board, () => {
-    this.board.show();
-    this.player2.play(this.board);
-  });
+  this.player1.play(this.board);
+
+  this.board.show();
+  this.player2.play(this.board);
+}
+
+function start() {
+  while (!this.board.isFinished()) {
+    this.turn();
+  }
 }
 
 function evalRow(row) {

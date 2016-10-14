@@ -8,6 +8,7 @@ module.exports = function Board(height = 9, width = 9) {
   this.column  = index => _.map(this.board, row => row[index]);
   this.cell = (row, column) => this.board[row][column];
   this.isEmpty = (row, column) => this.board[row][column] === 0;
+  this.isFinished = () => !_.some(this.board, row => _.some(row, n => n === 0));
 
   this.set = (row, column, value) => { 
     this.board[row][column] = value
