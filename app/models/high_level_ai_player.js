@@ -61,7 +61,7 @@ function play(game) {
         values = _.intersection(values, common);
 
         if (values.length === 1) {
-          game.set(row, column, values[0]);
+          game.set(row, col, values[0]);
           moveDone = true;
         }
       }

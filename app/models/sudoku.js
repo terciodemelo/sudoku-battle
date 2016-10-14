@@ -11,6 +11,7 @@ module.exports = function Sudoku(player1, player2) {
   this.player2 = player2;
   this.score = {player1: 0, player2: 0};
   this.currentPlayer = 'player1';
+  this.passes = 0;
 
   this.board = new Board();
   this.board.initBoard(_.sample(BoardHelper.DEFAULT_CONFIGURATIONS));
@@ -37,17 +38,23 @@ module.exports = function Sudoku(player1, player2) {
 function turn() {
   this.board.show();
   this.currentPlayer = 'player1';
-  this.player1.play(this);
+  if(!this.player1.play(this)) this.passes++;
+  else passes = 0;
 
   this.board.show();
   this.currentPlayer = 'player2';
-  this.player2.play(this);
+  if(!this.player2.play(this)) this.passes++;
+  else passes = 0;
 }
 
 function start() {
-  while (!this.board.isFinished()) {
+  while (!this.board.isFinished() && this.passes < 9) {
     this.turn();
   }
+
+  return this.score.player1 > this.score.player2 ? 'player1' :
+         this.score.player1 < this.score.player2 ? 'player2' :
+         'draw';
 }
 
 function evalRow(row) {
