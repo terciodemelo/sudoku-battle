@@ -9,6 +9,8 @@ let Board        = require('./board')
 module.exports = function Sudoku(player1, player2) {
   this.player1 = player1;
   this.player2 = player2;
+  this.score = {player1: 0, player2: 0};
+  this.currentPlayer = 'player1';
 
   this.board = new Board();
   this.board.initBoard(_.sample(BoardHelper.DEFAULT_CONFIGURATIONS));
@@ -21,6 +23,8 @@ module.exports = function Sudoku(player1, player2) {
   this.turn         = turn;
   this.start        = start
 
+  this.quadrantConquest = quadrantConquest;
+
   let before = ClassHelper.before;
 
   before(this, 'get',          SudokuHelper.verifyParamsRange);
@@ -32,9 +36,11 @@ module.exports = function Sudoku(player1, player2) {
 
 function turn() {
   this.board.show();
+  this.currentPlayer = 'player1';
   this.player1.play(this);
 
   this.board.show();
+  this.currentPlayer = 'player2';
   this.player2.play(this);
 }
 
@@ -80,6 +86,23 @@ function setCell(row, column, value) {
 
   this.board.set(row, column, value);
   console.log(`Latest move: (${row + 1}, ${column + 1}) <- ${value}\n`)
+
+  this.score[this.currentPlayer] += this.quadrantConquest(row, column);
+
+  console.log(`\nScores`);
+  console.log(`Player 1: ${this.score.player1}`);
+  console.log(`Player 2: ${this.score.player2}\n`);
 }
 
+function quadrantConquest(row, column) {
+  row -= row % 3;
+  column -= column % 3;
+  let score = 60;
 
+
+  _.each(_.range(9), i => {
+    score *= (this.board.cell(row + Math.floor(i/3), column + i%3) != 0);
+  })
+
+  return score;
+}
