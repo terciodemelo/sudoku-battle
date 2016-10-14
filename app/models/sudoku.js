@@ -4,12 +4,16 @@ let SudokuHelper = require('../helpers/sudoku_helper');
 let ClassHelper  = require('../helpers/class_helper');
 let Board        = require('./board')
 
-module.exports = function Sudoku() {
+module.exports = function Sudoku(player1, player2) {
+  this.player1 = player1;
+  this.player2 = player2;
+
   this.board = new Board();
   this.set = setCell;
   this.evalRow = evalRow;
   this.evalColumn = evalColumn;
   this.evalQuadrant = evalQuadrant;
+  this.turn = turn;
 
   let before = ClassHelper.before;
 
@@ -17,6 +21,13 @@ module.exports = function Sudoku() {
   before(this, 'evalRow',      SudokuHelper.verifyParamsRange);
   before(this, 'evalColumn',   SudokuHelper.verifyParamsRange);
   before(this, 'evalQuadrant', SudokuHelper.verifyParamsRange);
+}
+
+function turn() {
+  this.board.show();
+  this.player1.play(this.board);
+  this.board.show();
+  this.player2.play(this.board);
 }
 
 function evalRow(row) {
